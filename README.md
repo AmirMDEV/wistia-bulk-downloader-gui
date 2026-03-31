@@ -13,7 +13,7 @@ Public fork of [aladagemre/wistia-downloader](https://github.com/aladagemre/wist
 
 ## Defaults
 
-- Download folder: `T:\Amir\Property`
+- Download folder: the current user's standard `Downloads` folder
 - Quality: `Original File`
 
 The GUI remembers your last used folder and quality automatically.

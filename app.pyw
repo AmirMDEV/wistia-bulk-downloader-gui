@@ -12,7 +12,6 @@ import threading
 
 
 APP_TITLE = "Wistia Downloader GUI"
-DEFAULT_OUTPUT_DIR = r"T:\Amir\Property"
 DEFAULT_QUALITY = "Original File"
 QUALITY_OPTIONS = [
     "Original File",
@@ -27,6 +26,13 @@ WISTIA_ID_PATTERNS = [
     re.compile(r"/iframe/([A-Za-z0-9]+)", re.IGNORECASE),
 ]
 DIRECT_ID_PATTERN = re.compile(r"^(?=.*\d)[A-Za-z0-9]{8,20}$")
+
+
+def default_output_dir() -> str:
+    downloads_dir = Path.home() / "Downloads"
+    if downloads_dir.exists():
+        return str(downloads_dir)
+    return str(Path.home())
 
 
 def settings_path() -> Path:
@@ -101,7 +107,7 @@ class WistiaGui:
         self.total_items = 0
         self.completed_items = 0
 
-        self.output_dir_var = tk.StringVar(value=self.settings.get("output_dir", DEFAULT_OUTPUT_DIR))
+        self.output_dir_var = tk.StringVar(value=self.settings.get("output_dir", default_output_dir()))
         self.quality_var = tk.StringVar(value=self.settings.get("quality", DEFAULT_QUALITY))
         self.status_var = tk.StringVar(value="Ready")
         self.count_var = tk.StringVar(value="0 IDs ready")
@@ -255,12 +261,12 @@ class WistiaGui:
         self._append_log("Ready. Paste IDs or Wistia links to begin.")
 
     def _choose_folder(self) -> None:
-        chosen = filedialog.askdirectory(initialdir=self.output_dir_var.get() or DEFAULT_OUTPUT_DIR)
+        chosen = filedialog.askdirectory(initialdir=self.output_dir_var.get() or default_output_dir())
         if chosen:
             self.output_dir_var.set(chosen)
 
     def _open_output_folder(self) -> None:
-        path = Path(self.output_dir_var.get().strip() or DEFAULT_OUTPUT_DIR)
+        path = Path(self.output_dir_var.get().strip() or default_output_dir())
         path.mkdir(parents=True, exist_ok=True)
         os.startfile(path)
 
@@ -326,7 +332,7 @@ class WistiaGui:
         if self.worker_thread and self.worker_thread.is_alive():
             return
 
-        output_dir = Path(self.output_dir_var.get().strip() or DEFAULT_OUTPUT_DIR)
+        output_dir = Path(self.output_dir_var.get().strip() or default_output_dir())
         output_dir.mkdir(parents=True, exist_ok=True)
         quality = self.quality_var.get().strip() or DEFAULT_QUALITY
 
@@ -494,7 +500,7 @@ class WistiaGui:
 def run_smoke_test() -> int:
     downloader_class = resolve_downloader_class()
     downloader = downloader_class(
-        output_dir=DEFAULT_OUTPUT_DIR,
+        output_dir=default_output_dir(),
         quality=DEFAULT_QUALITY,
         max_retries=1,
         delay=0.0,
@@ -504,7 +510,7 @@ def run_smoke_test() -> int:
         "downloader_class": downloader_class.__name__,
         "settings_path": str(settings_path()),
         "sample_id_parse_count": len(unique_ids_from_text("o1kvat5mfb https://example.com?v=1&wvideo=abc123def")),
-        "default_output_dir": DEFAULT_OUTPUT_DIR,
+        "default_output_dir": default_output_dir(),
         "default_quality": DEFAULT_QUALITY,
         "downloader_has_session": hasattr(downloader, "session"),
     }
