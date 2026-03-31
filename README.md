@@ -1,6 +1,6 @@
-# Wistia Bulk Downloader GUI
+﻿# Wistia Bulk Downloader GUI
 
-Public fork of [aladagemre/wistia-downloader](https://github.com/aladagemre/wistia-downloader) with a Windows GUI, bulk paste workflow, retry support, and a packaged `.exe` release. The GUI layer in this fork was made with GPT-5.4 code X.
+Public fork of [aladagemre/wistia-downloader](https://github.com/aladagemre/wistia-downloader) with a Windows GUI, bulk paste workflow, retry support, and a packaged `.exe` release. The GUI layer in this fork was made with GPT-5.4.
 
 ## What It Does
 
@@ -62,3 +62,4 @@ The packaged app is written to `dist\Wistia Downloader GUI.exe`.
 - The original CLI remains available in `wistia.py`
 - The GUI uses the local downloader module directly instead of scraping terminal output
 - Build outputs stay out of source control and the `.exe` is intended to ship as a release asset
+
