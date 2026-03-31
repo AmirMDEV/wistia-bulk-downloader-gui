@@ -1,45 +1,64 @@
-# Wistia Downloader GUI
+# Wistia Bulk Downloader GUI
 
-Quick Windows GUI for the installed `wistia` downloader.
+Public fork of [aladagemre/wistia-downloader](https://github.com/aladagemre/wistia-downloader) with a Windows GUI, bulk paste workflow, retry support, and a packaged `.exe` release. The GUI layer in this fork was made with GPT-5.4 code X.
 
-## What it does
+## What It Does
 
-- Paste video IDs in bulk
+- Paste Wistia IDs in bulk
 - Accept direct IDs, Wistia links, or pasted HTML containing `wvideo=...`
-- Choose the download folder
-- Pick the quality
-- Start downloads with one button
-- Retry only the failed IDs from the last batch
-- Show a live log while the batch runs
-- Show overall progress while the batch runs
+- Pick the download folder from the app
+- Choose output quality, including `Original File`
+- Retry only the failed IDs from the previous batch
+- Show a live log and overall progress while downloads run
 
 ## Defaults
 
 - Download folder: `T:\Amir\Property`
 - Quality: `Original File`
 
-The app remembers your last used folder and quality automatically.
+The GUI remembers your last used folder and quality automatically.
 
 ## Launch
 
-Double-click:
+### Download the EXE
 
-- [Launch Wistia Downloader GUI.cmd](C:\Users\Amir Mansaray\Documents\Github\wistia-downloader-gui\Launch%20Wistia%20Downloader%20GUI.cmd)
-- Desktop shortcut: [Wistia Downloader GUI.lnk](C:\Users\Amir Mansaray\Desktop\Wistia%20Downloader%20GUI.lnk)
+- Latest release: [v1.0.0](https://github.com/AmirMDEV/wistia-bulk-downloader-gui/releases/tag/v1.0.0)
+- Direct download: [WistiaDownloaderGUI.exe](https://github.com/AmirMDEV/wistia-bulk-downloader-gui/releases/download/v1.0.0/WistiaDownloaderGUI.exe)
 
-Or run:
-
-```powershell
-pyw .\app.pyw
-```
-
-## Smoke test
+### Run from source
 
 ```powershell
-py .\app.pyw --smoke-test
+pythonw .\wistia_gui.pyw
 ```
+
+### Windows launcher
+
+Double-click `Launch Wistia Downloader GUI.cmd`.
+
+## Screenshots
+
+Main window: bulk paste box, folder picker, and quality selection.
+
+![Main window](docs/images/main-window.png)
+
+Download in progress: live log, progress bar, and stop control.
+
+![Download in progress](docs/images/download-in-progress.png)
+
+Retry failed IDs: post-run failure state with one-click retry.
+
+![Retry failed IDs](docs/images/retry-failed-ids.png)
+
+## Build The EXE
+
+```powershell
+.\build_exe.ps1 -Clean
+```
+
+The packaged app is written to `dist\Wistia Downloader GUI.exe`.
 
 ## Notes
 
-- The GUI uses the installed Python `wistia-downloader` package directly for a cleaner Windows workflow.
-- If `wistia-downloader` is missing, the GUI will show an error when you try to start a batch.
+- The original CLI remains available in `wistia.py`
+- The GUI uses the local downloader module directly instead of scraping terminal output
+- Build outputs stay out of source control and the `.exe` is intended to ship as a release asset
